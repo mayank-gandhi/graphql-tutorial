@@ -19,8 +19,23 @@ class Resolvers::LinksSearch
     argument :url_contains, types.String
   end
 
+  Pagination = GraphQL::InputObjectType.define do
+    name 'Pagination'
+
+    argument :page, types.Int
+    argument :per_page, types.Int
+  end
+
   # when "filter" is passed "apply_filter" would be called to narrow the scope
   option :filter, type: LinkFilter, with: :apply_filter
+  option :pagination, type: Pagination, with: :apply_pagination
+
+  def apply_pagination(scope, value)
+    scope.paginate(page: value["page"], per_page: value["per_page"])
+  rescue RangeError => e
+    # this would catch all validation errors and translate them to GraphQL::ExecutionError
+    GraphQL::ExecutionError.new("Invalid input: #{e.message}")
+  end
 
   # apply_filter recursively loops through "OR" branches
   def apply_filter(scope, value)
