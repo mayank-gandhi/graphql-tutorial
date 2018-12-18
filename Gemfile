@@ -39,6 +39,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 #getting graphql in our rails app
 gem 'graphql', '~> 1.8', '>= 1.8.5'
 
+# Use for environment variables
+gem 'figaro'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -61,6 +64,13 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
+  # for testing
+  gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
+  gem 'rails-controller-testing'
+  gem 'factory_bot_rails'
+  gem 'shoulda-matchers', '~> 3.1.2'
+  # Code coverage tools incentivize developers to write tests and increase coverage
+  gem 'codecov', :require => false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
